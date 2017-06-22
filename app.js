@@ -11,51 +11,68 @@ function initMap() {
 }
 
 
-// app state
+//----------------------------------------------------- app state
 
 const appState = {
   key: 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s',
+  geoLocation: [],
   results: [],
 };
 
-// ref url https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=hospital&keyword=emergency&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
 
 
+//test URLS
+//https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=38.75578400000001,-77.263606&radius=5000&type=hospital&keyword=emergency&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
 
 
 // userInput is the location that the user set
 
-// https://maps.googleapis.com/maps/api/service/output?
 
-// https://www.googleapis.com/maps/v3/search/
-// Controller
+// -------------------------------------------------------------state mods
+
+// convets zip code to latitutde and longitude
+let geocoding = function(state, userInput, callback) {
+  console.log(userInput);
+  let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${userInput}&key=${state.key}`
+  console.log(geocodeURL);
+  $.getJSON(userInput, iHaveThisLocation);
+}
+
+// creates query with longitude and latitude vales for geocoding function and makes API request
 function getData(state, userInput, callback) {
 
-  let location = '';
-  let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=500&type=hospital&keyword=emergency&key=${state.key}`;
-  console.log(searchURL);
-  $.getJSON(userInput, callback);
-}
-
-geocoding(state, userInput) {
-
-  let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${state.key}`
+  let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${appState.geoLocation}&radius=5000&type=hospital&keyword=emergency&key=${state.key}`;
+  $.getJSON(userInput, iHaveResults);
 }
 
 
+
+//results.geometry.location
+// https://maps.googleapis.com/maps/api/geocode/json?address=22152&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
 // // State manipulation functions
 
+// Callback
+function iHaveThisLocation(state, getData, callback) {
+  appState.geoLocation = results.geometry.location;
+  console.log("longitude and latitude results:" + appState.geoLocation);
+  getData(state, callback);
+}
 
-// // Render functions
+function iHaveResults(state, geocoding) {
+  appState.results = results.name;
+  console.log("hospital name:" + results.name);
+}
+
+//-------------------------------------------------------------------------Render functions
 
 
-// // Event handlers
+//------------------------------------------------------------------------- Event handlers
 
 $('.search-bar').submit(function (event) {
   event.preventDefault();
   const userInput = $(event.currentTarget).find('input').val();
   console.log('user entered:' + userInput);
-  getData(userInput, function(){console.log('hi')})
+  geocoding(userInput, iHaveThisLocation);
 })
 
 $(function() {
