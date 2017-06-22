@@ -14,7 +14,8 @@ function initMap() {
 // app state
 
 const appState = {
-  // store results here
+  key: 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s',
+  results: [],
 };
 
 // ref url https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=hospital&keyword=emergency&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
@@ -28,13 +29,19 @@ const appState = {
 
 // https://www.googleapis.com/maps/v3/search/
 // Controller
-function getData(userInput, callback) {
-  const mapsKey = 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s';
+function getData(state, userInput, callback) {
+
   let location = '';
-  let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=500&type=hospital&keyword=emergency&key=${mapsKey}`;
+  let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=500&type=hospital&keyword=emergency&key=${state.key}`;
   console.log(searchURL);
   $.getJSON(userInput, callback);
 }
+
+geocoding(state, userInput) {
+
+  let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${state.key}`
+}
+
 
 // // State manipulation functions
 
