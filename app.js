@@ -35,7 +35,7 @@ let geocoding = function(state, userInput, callback) {
   console.log(userInput);
   let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${userInput}&key=${state.key}`
   console.log(geocodeURL);
-  $.getJSON(userInput, iHaveThisLocation);
+  $.getJSON(geocodeURL, iHaveThisLocation);
 }
 
 // creates query with longitude and latitude vales for geocoding function and makes API request
@@ -53,8 +53,11 @@ function getData(state, userInput, callback) {
 
 // Callback
 function iHaveThisLocation(state, getData, callback) {
-  appState.geoLocation = results.geometry.location;
-  console.log("longitude and latitude results:" + appState.geoLocation);
+  
+  console.log(state, getData)
+
+  state.geoLocation = state.results[0].geometry.location;
+  console.log("longitude and latitude results:" + state.geoLocation);
   getData(state, callback);
 }
 
@@ -72,7 +75,7 @@ $('.search-bar').submit(function (event) {
   event.preventDefault();
   const userInput = $(event.currentTarget).find('input').val();
   console.log('user entered:' + userInput);
-  geocoding(userInput, iHaveThisLocation);
+  geocoding(appState, userInput, iHaveThisLocation);
 })
 
 $(function() {
