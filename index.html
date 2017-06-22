@@ -12,13 +12,13 @@
 	<div class="search">
 		<form class = "search-bar">
 			<label for = "query"></label>
-			<input type="text" id="query" placeholder="Enter zip code" required>
+			<input type="text" id="query" placeholder="Enter zip code" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
 			<button type="submit">Search</button>
 		</form>
 	</div>
 
 	<!-- Map -->
-	<div id="map hidden">
+	<div id="map">
 	
 	</div>
 	
@@ -30,12 +30,16 @@
 </main>
 
 <!-- Scripts -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="app.js"></script>
 
 <!-- API key for Google maps -->
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDk3bgwY_IT0-CzKn1zSP5qyQv7M-GP9Tw&callback=initMap">
-    </script>
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s&callback=initMap">
+</script>
+
+
+
+
 </body>
 </html>
