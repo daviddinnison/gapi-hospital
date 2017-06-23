@@ -32,15 +32,41 @@ const appState = {
 // convets zip code to latitutde and longitude 
 //let geocoding = (state, zipcode, lat, lng, results, callback) => {
 let geocoding = (state, zipcode, lat, lng, results) => {
-  let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=${state.key}`
+  let baseURL = 'https://maps.googleapis.com/maps/api';
+
+  // Interpolation in a template literal.
+  let geocodeURL = `${ baseURL }/geocode/json?address=${zipcode}&key=${state.key}`
+
   // console.log(geocodeURL);
   
-  let query = { // this area need help
-    'location': '%s,%s' % (lat, lng),
-    'results': results,
-  }
+  // let query = { // this area need help
+  //   'location': '%s,%s' % (lat, lng),
+  //   'results': results,
+  // }
 
-  $.getJSON(geocodeURL, query, setGeocode); //maybe some parameter issues
+  $.getJSON(geocodeURL, function(data) {
+    console.log('Geo Data:', data);
+
+    const location = data.results[0].geometry.location;
+    state.geoLocation = [ location.lat, location.lng ]
+
+    // let hospitalURL = `${ baseURL }/place/nearbysearch/json?key=${ state.key }`
+    let hospitalURL = `${ baseURL }/place/nearbysearch/json?location=${ location.lat },${ location.lng }&radius=5000&type=hospital&keyword=emergency&key=${ state.key }`
+
+    $.ajax({
+      url: hospitalURL,
+      type: 'GET',
+      dataType: 'jsonp',
+      cache: false,
+      success: function(response) {
+        console.log(response);
+      }
+    })
+
+    // $.getJSON(hospitalURL, function(data) {
+    //   console.log('Hospital Data:', data);
+    // })
+  }); //maybe some parameter issues
 // .getJSON( url, some data object, callback function if request is successful )
 }
 
@@ -72,7 +98,7 @@ function setGeocode(state, data) {//these parameters might not be working
   // grab zipcode and convert to geocode here
 
   console.log(data); // => success
-  console.log(data.results[2].geometry.location); // => cannot read property 2
+  console.log(state.results.geometry); // => cannot read property 2
 
   appState.geoLocation = data.results[2].geometry.location;
   // console.log(state.geoLocation);
