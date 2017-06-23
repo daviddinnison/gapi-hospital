@@ -11,7 +11,7 @@ function initMap() {
 }
 
 
-//----------------------------------------------------- app state
+//-- app state ----------------------------------------
 
 const appState = {
   key: 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s',
@@ -20,74 +20,80 @@ const appState = {
 };
 
 
-//test URLS
+//-- test URLS ----------------------------------------
+
   //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=38.75578400000001,-77.263606&radius=5000&type=hospital&keyword=emergency&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
 
   // https://maps.googleapis.com/maps/api/geocode/json?address=22152&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
 
 
-// -------------------------------------------------------------controllers
+// -- controllers ----------------------------------------
 
 // convets zip code to latitutde and longitude
-let geocoding = (state, userInput, callback) => {
+let geocoding = (state, userInput, lat, lng, results, callback) => {
   let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${userInput}&key=${state.key}`
   const query = {
-    'location': "%s,%s" % (lat, lng),
+    'location': '%s,%s' % (lat, lng),
+    'results': results,
   }
-  console.log("query is: " + query);
-  console.log(query.location)
   $.getJSON(geocodeURL, query, myFunctions.iHaveThisLocation); 
 }
 
 // creates query with longitude and latitude vales for geocoding function and makes API request
-let getData = (state, callback) => {
-  console.log('i am here')
-  let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${appState.geoLocation}&radius=5000&type=hospital&keyword=emergency&key=${state.key}`;
-  function wait(seconds, callback) {
-    setTimeout(function() {
-      $.getJSON(state, myFunctions.iHaveResults);
-    }, seconds * 1000);
-  }
-  console.log('waiting')
+let getData = (state, myFunctions, callback) => {
+  
+  console.log('i am here in getData')
+  console.log("what is this a type of ?: " + typeof(appState.geoLocation))
+  var obj = JSON.stringify(appState.geoLocation);
+  console.log("what is this a type of NOW?: " + typeof(obj))
+
+
+  // let clean = myFunctions.removeChars(obj).val();
+  console.log('START HERE: need to pass in function removeChars to remove the extra characters in obj string, uncomment line 51 to see error')
+
+
+  let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${obj}&radius=5000&type=hospital&keyword=emergency&key=${appState.key}`;
+
+  console.log("why is geoLocation not being added to URL?" + searchURL) 
+
   // $.getJSON(state, myFunctions.iHaveResults);
-}
-// -------------------------------------------------------------state mods
+};
+
+
+// -- state mods ----------------------------------------
 
 var myFunctions = {
-  iHaveThisLocation: (state, getData, callback) => {
-    state.geoLocation = state.results[0].geometry.location;
-    console.log("longitude and latitude results:" + state.geoLocation);
-    getData(state, callback);
+  iHaveThisLocation: (data) => {
+    appState.geoLocation = data.results[0].geometry.location;
+    console.log(data.results[0].geometry.location)
+    getData(data, myFunctions.storeResults);
   },
 
   storeResults: (state, geocoding) => {
     appState.results = results.name;
     console.log("hospital name:" + results.name);
     render(appState);
-  }
+  },
 
+  removeChars: (string) => {
+  var regex = /[latng:""{}?\n|\r]/g;
+  return string.replace(regex, '').split(' ');
+  }
 };
 
-
-//-------------------------------------------------------------------------Render functions
-
+//-- Render functions ----------------------------------------
 
 
-//------------------------------------------------------------------------- Event handlers
 
+//-- Event handlers ----------------------------------------
 
 $('.search-bar').submit(function (event) {
   event.preventDefault();
   const userInput = $(event.currentTarget).find('input').val();
   console.log('user entered:' + userInput);
   geocoding(appState, userInput, myFunctions.iHaveThisLocation);
-  
 })
 
 $(function () {
   // console.log( "ready?" );
 })
-
-
-
-// grab the value -> take the value and add it to the search url -> return we dump in the html
