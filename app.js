@@ -27,23 +27,22 @@ const appState = {
 };
 
 
-//-- test URLS ----------------------------------------
-
-  //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=38.75578400000001,-77.263606&radius=5000&type=hospital&keyword=emergency&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
-
-  // https://maps.googleapis.com/maps/api/geocode/json?address=22152&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
-
-
 // -- controllers ----------------------------------------
 
-// convets zip code to latitutde and longitude
-let geocoding = (state, zipcode, lat, lng, results, callback) => {
+// convets zip code to latitutde and longitude 
+//let geocoding = (state, zipcode, lat, lng, results, callback) => {
+let geocoding = (state, zipcode, lat, lng, results) => {
   let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=${state.key}`
+  console.log(geocodeURL);
+  
+
   let query = {
     'location': '%s,%s' % (lat, lng),
     'results': results,
   }
-  $.getJSON(geocodeURL, query); 
+
+  $.getJSON(geocodeURL, query); //maybe some parameter issues
+
 }
 
 // creates query with longitude and latitude vales for geocoding function and makes API request
@@ -66,13 +65,15 @@ let getData = (state, ) => {
 // -- state mods ----------------------------------------
 
 function setZipcode(state, zipcode) {
-  state.zipcode = zipcode;  
+  state.zipcode = zipcode;
+  //console.log(zipcode);  
 }
 
-function setGeocode(state, query) {
+function setGeocode(state, query) {//these parameters might not be working
   // grab zipcode and convert to geocode here
-  state.geoLocation = query.location;
-  console.log(state.geoLocation)
+  console.log('we are in setGeocode...');
+  state.geoLocation = query.results[0].geometry.location;
+  console.log(state.geoLocation);
 }
 
 var myFunctions = {
@@ -114,9 +115,9 @@ $('.search-bar').submit(function (event) {
   const zipcode = $(event.currentTarget).find('input').val();
   
   setZipcode(appState, zipcode);
-  geocoding(zipcode)
+  geocoding(appState, zipcode);
   setGeocode(appState, query)
-  getData()
+  getData();
   //getData(appState );
   renderMap(appState);
 
@@ -139,3 +140,19 @@ $('.results').on('click', 'li', event => {
 $(function () {
   // console.log( "ready?" );
 })
+
+///to do list
+// 1 lat and longitude is being returned as empty object. our URL for converting zip works. 
+
+
+
+
+
+
+
+
+//-- test URLS ----------------------------------------
+
+  //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=38.75578400000001,-77.263606&radius=5000&type=hospital&keyword=emergency&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
+
+  // https://maps.googleapis.com/maps/api/geocode/json?address=22152&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
