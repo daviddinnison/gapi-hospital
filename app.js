@@ -31,7 +31,7 @@ const appState = {
 
 // convets zip code to latitutde and longitude 
 //let geocoding = (state, zipcode, lat, lng, results, callback) => {
-let geocoding = (state, zipcode) => {
+let geocoding = (state, zipcode, callback) => {
   let baseURL = 'https://maps.googleapis.com/maps/api';
 
   // Interpolation in a template literal.
@@ -50,7 +50,6 @@ let geocoding = (state, zipcode) => {
     //pushes lat/long into state
     state.geoLocation = [ location.lat, location.lng ]
 
-
     //required for PlacesService function
     const map = new google.maps.Map(document.getElementById('map'), {
       center: focus,
@@ -62,15 +61,18 @@ let geocoding = (state, zipcode) => {
 
     const request = {
       location: focus,
-      radius: '50000',//may change later
+      radius: '40000',//may change later
       types: [ 'hospital' ]//may change later
     };
 
     //where the actual API request for Google Places is initialized
     googlePlaces.nearbySearch(request, function(results, status) {
-      console.log('Nearby:', results, status)
+      // console.log('Nearby:', results, status)
       appState.searchResults = results;
       console.log('what is inside the state? ', appState.searchResults)
+
+      // All the work is done!
+      callback(appState)
     })
   }); 
 }
@@ -82,19 +84,16 @@ function setZipcode(state, zipcode) {
   //console.log(zipcode);  
 }
 
-
 //-- Render functions ----------------------------------------
 
-// function renderMap(state) {
-//   if (state.zipcode) {
-//     geocoder.geocode({ 'address': state.zipcode }, (res, status) => {
-//       map.setCenter(res[0].geometry.location)
-//       map.setZoom(8);
-//     });
-//   }
-// }
 function render(state) {
-console.log(state.searchResults)
+  console.log(state.searchResults);
+  let renderbob = '';
+  state.searchResults.forEach(function(items) {
+    renderbob += (`<p>${items.name}</p>`)
+  })
+  $('.results').html(renderbob)
+
 }
 
 
@@ -109,11 +108,7 @@ $('.search-bar').submit(function (event) {
   const zipcode = $(event.currentTarget).find('input').val();
   
   setZipcode(appState, zipcode);
-  geocoding(appState, zipcode);
-  // renderMap(appState);
-
-
-
+  geocoding(appState, zipcode, render);
 })
 
 $('.results').on('click', 'li', event => {

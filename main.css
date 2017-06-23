@@ -11,3 +11,9 @@ input {
    height: 350px;
    background-color: grey;
  }
+
+
+ p {
+   font-size: 12px;
+   color: red;
+ }
