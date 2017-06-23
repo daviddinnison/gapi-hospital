@@ -1,3 +1,8 @@
+* {
+	font-family: 'Roboto', sans-serif;
+	text-align: center;
+}
+
 .hidden, #hidden {
 	display: none;
 }
@@ -7,9 +12,12 @@ input {
 }
 
 #map {
-   width: 300px;
-   height: 350px;
+/*   width: 300px;
+   height: 350px;*/
+   width: 577px;
+   height: 450px;
    background-color: grey;
+   margin: 0px auto;
  }
 
 
@@ -20,8 +28,17 @@ input {
  .individual-result {
  	border: 2px solid black;
  	border-radius: 3px;
+ 	margin: 0px auto;
  	margin-bottom: 20px;
  	padding: 20px;
  	text-align: center;
- 	width: 60%;
+ 	width: 40%;
+ }
+
+ .hospital-name {
+ 	font-size: 20px;
+ }
+
+ .rating {
+ 	color: blue;
  }

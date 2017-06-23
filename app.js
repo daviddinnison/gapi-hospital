@@ -87,6 +87,7 @@ function setZipcode(state, zipcode) {
 //-- Render functions ----------------------------------------
 
 function render(state) {
+  
   console.log(state.searchResults);
   let renderbob = '';
   state.searchResults.forEach(function(items) {
@@ -94,15 +95,15 @@ function render(state) {
       <div class = "listen">  
         <div class='individual-result'>
           <img src ='${items.icon}'>
-          <p>${items.name}</p>
+          <p class = "hospital-name">${items.name}</p>
           <p>${items.vicinity}</p>
-          <p>${items.rating} star rating</p>
+          <p class = 'rating'>${items.rating} star rating</p>
         </div>
       </div>
       `)
   })
   $('.results').html(renderbob)
-
+  $('h2').removeClass('hidden');
 }
 
 
