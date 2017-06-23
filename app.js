@@ -37,71 +37,49 @@ let geocoding = (state, zipcode, lat, lng, results) => {
   // Interpolation in a template literal.
   let geocodeURL = `${ baseURL }/geocode/json?address=${zipcode}&key=${state.key}`
 
-  // console.log(geocodeURL);
-  
-  // let query = { // this area need help
-  //   'location': '%s,%s' % (lat, lng),
-  //   'results': results,
-  // }
-
+  //make geocode request
   $.getJSON(geocodeURL, function(data) {
     console.log('Geo Data:', data);
 
+    //shorthand for adding geocode to state
     const location = data.results[0].geometry.location;
+    
+    //creates new location object using place libary and assign it to a variable
+    const focus = new google.maps.LatLng(location.lat, location.lng)
+
+    //pushes lat/long into state
     state.geoLocation = [ location.lat, location.lng ]
 
-    // let hospitalURL = `${ baseURL }/place/nearbysearch/json?key=${ state.key }`
-    let hospitalURL = `${ baseURL }/place/nearbysearch/json?location=${ location.lat },${ location.lng }&radius=5000&type=hospital&keyword=emergency&key=${ state.key }`
 
-    $.ajax({
-      url: hospitalURL,
-      type: 'GET',
-      dataType: 'jsonp',
-      cache: false,
-      success: function(response) {
-        console.log(response);
-      }
+    //required for PlacesService function
+    const map = new google.maps.Map(document.getElementById('map'), {
+      center: focus,
+      zoom: 15//may change later
+    });
+
+    //
+    const googlePlaces = new google.maps.places.PlacesService(map);
+
+
+    const request = {
+      location: focus,
+      radius: '5000',//may change later
+      types: [ 'hospital' ]//may change later
+    };
+
+    //where the actual API request for Google Places is initialized
+    googlePlaces.nearbySearch(request, function(results, status) {
+      console.log('Nearby:', results, status)
     })
-
-    // $.getJSON(hospitalURL, function(data) {
-    //   console.log('Hospital Data:', data);
-    // })
-  }); //maybe some parameter issues
-// .getJSON( url, some data object, callback function if request is successful )
+  }); 
 }
-
-// creates query with longitude and latitude vales for geocoding function and makes API request
-let getData = (state, ) => {
-
-  console.log("getData");
-
-  // let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${state.geoLocation.lat},${state.geoLocation.lng}&radius=5000&type=hospital&keyword=emergency&key=${appState.key}`;
-
-// console.log(searchURL)
-  
-  // const results = {
-  //   key: value
-  // }
-
-  // $.getJSON(searchURL, myFunctions.storeResults);
-};
-
 
 // -- state mods ----------------------------------------
 
 function setZipcode(state, zipcode) {
   state.zipcode = zipcode;
   //console.log(zipcode);  
-}
 
-function setGeocode(state, data) {//these parameters might not be working
-  // grab zipcode and convert to geocode here
-
-  console.log(data); // => success
-  console.log(state.results.geometry); // => cannot read property 2
-
-  appState.geoLocation = data.results[2].geometry.location;
-  // console.log(state.geoLocation);
 }
 
 
@@ -119,10 +97,6 @@ var myFunctions = {
     render(appState);
   },
 
-  removeChars: (string) => {
-  var regex = /[latng:""{}?\n|\r]/g;
-  return string.replace(regex, '').split(' ');
-  }
 };
 
 //-- Render functions ----------------------------------------

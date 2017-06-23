@@ -12,7 +12,7 @@
 	<div class="search">
 		<form class = "search-bar">
 			<label for = "query"></label>
-			<inpADFADFADFADFut type="text" id="query" maxlength="5" placeholder="Enter zip code" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
+			<input type="text" id="query" maxlength="5" placeholder="Enter zip code" onkeypress='return event.charCode >= 48 && event.charCode <= 57' required>
 			<button type="submit">Search</button>
 		</form>
 	</div>
@@ -35,11 +35,8 @@
 
 <!-- API key for Google maps -->
 <script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s&callback=initMap">
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s&callback=initMap&libraries=places">
 </script>
-
-
-
 
 </body>
 </html>
