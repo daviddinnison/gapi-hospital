@@ -33,22 +33,21 @@ const appState = {
 //let geocoding = (state, zipcode, lat, lng, results, callback) => {
 let geocoding = (state, zipcode, lat, lng, results) => {
   let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=${state.key}`
-  console.log(geocodeURL);
+  // console.log(geocodeURL);
   
-
-  let query = {
+  let query = { // this area need help
     'location': '%s,%s' % (lat, lng),
     'results': results,
   }
 
-  $.getJSON(geocodeURL, query); //maybe some parameter issues
-
+  $.getJSON(geocodeURL, query, setGeocode); //maybe some parameter issues
+// .getJSON( url, some data object, callback function if request is successful )
 }
 
 // creates query with longitude and latitude vales for geocoding function and makes API request
 let getData = (state, ) => {
 
-  console.log(appState.geoLocation);
+  console.log("getData");
 
   // let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${state.geoLocation.lat},${state.geoLocation.lng}&radius=5000&type=hospital&keyword=emergency&key=${appState.key}`;
 
@@ -69,12 +68,17 @@ function setZipcode(state, zipcode) {
   //console.log(zipcode);  
 }
 
-function setGeocode(state, query) {//these parameters might not be working
+function setGeocode(state, data) {//these parameters might not be working
   // grab zipcode and convert to geocode here
-  console.log('we are in setGeocode...');
-  state.geoLocation = query.results[0].geometry.location;
-  console.log(state.geoLocation);
+
+  console.log(data); // => success
+  console.log(data.results[2].geometry.location); // => cannot read property 2
+
+  appState.geoLocation = data.results[2].geometry.location;
+  // console.log(state.geoLocation);
 }
+
+
 
 var myFunctions = {
   iHaveThisLocation: (data) => {
@@ -116,9 +120,10 @@ $('.search-bar').submit(function (event) {
   
   setZipcode(appState, zipcode);
   geocoding(appState, zipcode);
-  setGeocode(appState, query)
-  getData();
-  //getData(appState );
+  // setGeocode(appState, query)
+
+  // getData();
+  // getData(appState);
   renderMap(appState);
 
 //  geocoding(appState, userInput, myFunctions.iHaveThisLocation);
