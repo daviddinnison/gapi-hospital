@@ -90,7 +90,16 @@ function render(state) {
   console.log(state.searchResults);
   let renderbob = '';
   state.searchResults.forEach(function(items) {
-    renderbob += (`<p>${items.name}</p>`)
+    renderbob += (`
+      <div class = "listen">  
+        <div class='individual-result'>
+          <img src ='${items.icon}'>
+          <p>${items.name}</p>
+          <p>${items.vicinity}</p>
+          <p>${items.rating} star rating</p>
+        </div>
+      </div>
+      `)
   })
   $('.results').html(renderbob)
 

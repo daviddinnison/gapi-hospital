@@ -15,5 +15,13 @@ input {
 
  p {
    font-size: 12px;
-   color: red;
+ }
+
+ .individual-result {
+ 	border: 2px solid black;
+ 	border-radius: 3px;
+ 	margin-bottom: 20px;
+ 	padding: 20px;
+ 	text-align: center;
+ 	width: 60%;
  }
