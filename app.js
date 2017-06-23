@@ -23,15 +23,15 @@ const appState = {
   key: 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s',
   geoLocation: [],
   zipcode: null,
-  results: [],
+  searchResults: [],
 };
 
 
-// -- controllers ----------------------------------------
+// -- google maps & places requests ----------------------------------------
 
 // convets zip code to latitutde and longitude 
 //let geocoding = (state, zipcode, lat, lng, results, callback) => {
-let geocoding = (state, zipcode, lat, lng, results) => {
+let geocoding = (state, zipcode) => {
   let baseURL = 'https://maps.googleapis.com/maps/api';
 
   // Interpolation in a template literal.
@@ -60,16 +60,17 @@ let geocoding = (state, zipcode, lat, lng, results) => {
     //
     const googlePlaces = new google.maps.places.PlacesService(map);
 
-
     const request = {
       location: focus,
-      radius: '5000',//may change later
+      radius: '50000',//may change later
       types: [ 'hospital' ]//may change later
     };
 
     //where the actual API request for Google Places is initialized
     googlePlaces.nearbySearch(request, function(results, status) {
       console.log('Nearby:', results, status)
+      appState.searchResults = results;
+      console.log('what is inside the state? ', appState.searchResults)
     })
   }); 
 }
@@ -79,35 +80,24 @@ let geocoding = (state, zipcode, lat, lng, results) => {
 function setZipcode(state, zipcode) {
   state.zipcode = zipcode;
   //console.log(zipcode);  
-
 }
 
-
-
-var myFunctions = {
-  iHaveThisLocation: (data) => {
-    appState.geoLocation = data.results[0].geometry.location;
-    console.log(data.results[0].geometry.location)
-    getData(data, myFunctions.storeResults);
-  },
-
-  storeResults: (state, geocoding) => {
-    appState.results = results.name;
-    console.log("hospital name:" + results.name);
-    render(appState);
-  },
-
-};
 
 //-- Render functions ----------------------------------------
-function renderMap(state) {
-  if (state.zipcode) {
-    geocoder.geocode({ 'address': state.zipcode }, (res, status) => {
-      map.setCenter(res[0].geometry.location)
-      map.setZoom(8);
-    });
-  }
+
+// function renderMap(state) {
+//   if (state.zipcode) {
+//     geocoder.geocode({ 'address': state.zipcode }, (res, status) => {
+//       map.setCenter(res[0].geometry.location)
+//       map.setZoom(8);
+//     });
+//   }
+// }
+function render(state) {
+console.log(state.searchResults)
 }
+
+
 
 //-- Event handlers ----------------------------------------
 
@@ -120,40 +110,26 @@ $('.search-bar').submit(function (event) {
   
   setZipcode(appState, zipcode);
   geocoding(appState, zipcode);
-  // setGeocode(appState, query)
+  // renderMap(appState);
 
-  // getData();
-  // getData(appState);
-  renderMap(appState);
 
-//  geocoding(appState, userInput, myFunctions.iHaveThisLocation);
+
 })
-
-/**
- * state = {
- *   results: [],
- *   selectedResult: null,
- * }
- */
 
 $('.results').on('click', 'li', event => {
   const selectedResult = $(event.target).find('span');
   setSelecedResult(appState, selectedResult);
-  render(appState);
+  // render(appState);
 });
 
 $(function () {
   // console.log( "ready?" );
 })
 
-///to do list
-// 1 lat and longitude is being returned as empty object. our URL for converting zip works. 
-
-
-
-
-
-
+// libaries
+  // places: https://developers.google.com/maps/documentation/javascript/places#place_search_requests
+  // geocode: https://developers.google.com/maps/documentation/geocoding/intro#GeocodingResponses
+  //web service: https://developers.google.com/maps/documentation/geocoding/web-service-best-practices#ParsingJSON
 
 
 //-- test URLS ----------------------------------------
