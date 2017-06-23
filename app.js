@@ -1,13 +1,19 @@
+let map;
+let geocoder;
+let marker;
+
+//-- google map display ----------------------------------------
 function initMap() {
   var uluru = { lat: -25.363, lng: 131.044 };
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     zoom: 4,
     center: uluru
   });
-  var marker = new google.maps.Marker({
+  marker = new google.maps.Marker({
     position: uluru,
     map: map
   });
+  geocoder = new google.maps.Geocoder();  
 }
 
 
@@ -16,6 +22,7 @@ function initMap() {
 const appState = {
   key: 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s',
   geoLocation: [],
+  zipcode: null,
   results: [],
 };
 
@@ -30,37 +37,43 @@ const appState = {
 // -- controllers ----------------------------------------
 
 // convets zip code to latitutde and longitude
-let geocoding = (state, userInput, lat, lng, results, callback) => {
-  let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${userInput}&key=${state.key}`
-  const query = {
+let geocoding = (state, zipcode, lat, lng, results, callback) => {
+  let geocodeURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${zipcode}&key=${state.key}`
+  let query = {
     'location': '%s,%s' % (lat, lng),
     'results': results,
   }
-  $.getJSON(geocodeURL, query, myFunctions.iHaveThisLocation); 
+  $.getJSON(geocodeURL, query); 
 }
 
 // creates query with longitude and latitude vales for geocoding function and makes API request
-let getData = (state, myFunctions, callback) => {
+let getData = (state, ) => {
+
+  console.log(appState.geoLocation);
+
+  // let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${state.geoLocation.lat},${state.geoLocation.lng}&radius=5000&type=hospital&keyword=emergency&key=${appState.key}`;
+
+// console.log(searchURL)
   
-  console.log('i am here in getData')
-  console.log("what is this a type of ?: " + typeof(appState.geoLocation))
-  var obj = JSON.stringify(appState.geoLocation);
-  console.log("what is this a type of NOW?: " + typeof(obj))
+  // const results = {
+  //   key: value
+  // }
 
-
-  // let clean = myFunctions.removeChars(obj).val();
-  console.log('START HERE: need to pass in function removeChars to remove the extra characters in obj string, uncomment line 51 to see error')
-
-
-  let searchURL = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${obj}&radius=5000&type=hospital&keyword=emergency&key=${appState.key}`;
-
-  console.log("why is geoLocation not being added to URL?" + searchURL) 
-
-  // $.getJSON(state, myFunctions.iHaveResults);
+  // $.getJSON(searchURL, myFunctions.storeResults);
 };
 
 
 // -- state mods ----------------------------------------
+
+function setZipcode(state, zipcode) {
+  state.zipcode = zipcode;  
+}
+
+function setGeocode(state, query) {
+  // grab zipcode and convert to geocode here
+  state.geoLocation = query.location;
+  console.log(state.geoLocation)
+}
 
 var myFunctions = {
   iHaveThisLocation: (data) => {
@@ -82,17 +95,46 @@ var myFunctions = {
 };
 
 //-- Render functions ----------------------------------------
-
-
+function renderMap(state) {
+  if (state.zipcode) {
+    geocoder.geocode({ 'address': state.zipcode }, (res, status) => {
+      map.setCenter(res[0].geometry.location)
+      map.setZoom(8);
+    });
+  }
+}
 
 //-- Event handlers ----------------------------------------
 
 $('.search-bar').submit(function (event) {
+  // 1. Receive input from user
+  // 2. Modify state based on user input
+  // 3. Run rendering function
   event.preventDefault();
-  const userInput = $(event.currentTarget).find('input').val();
-  console.log('user entered:' + userInput);
-  geocoding(appState, userInput, myFunctions.iHaveThisLocation);
+  const zipcode = $(event.currentTarget).find('input').val();
+  
+  setZipcode(appState, zipcode);
+  geocoding(zipcode)
+  setGeocode(appState, query)
+  getData()
+  //getData(appState );
+  renderMap(appState);
+
+//  geocoding(appState, userInput, myFunctions.iHaveThisLocation);
 })
+
+/**
+ * state = {
+ *   results: [],
+ *   selectedResult: null,
+ * }
+ */
+
+$('.results').on('click', 'li', event => {
+  const selectedResult = $(event.target).find('span');
+  setSelecedResult(appState, selectedResult);
+  render(appState);
+});
 
 $(function () {
   // console.log( "ready?" );
