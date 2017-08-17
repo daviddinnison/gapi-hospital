@@ -18,20 +18,20 @@ function initialMap() {
   });
   marker = new google.maps.Marker({
     position: centerOfUsa,
-    map: map
+    map: map,
+    title:"Lebanon, KS"
   });
   geocoder = new google.maps.Geocoder();  
 }
 
-const convertZipToGeocode = (state, zipcode, callback) => {
-  // sets URL for request with zipcode
+const requestSearchResults = (state, zipcode, callback) => {
+  // zip code must be converted to geocode for API request and map display
   const baseURL = 'https://maps.googleapis.com/maps/api';
   const geocodeURL = `${ baseURL }/geocode/json?address=${zipcode}&key=${state.apiKey}`;
-// test URL: https://maps.googleapis.com/maps/api/geocode/json?address=22152&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
 
-  //makes geocode api request
+  // geocode API request
   $.getJSON(geocodeURL, data => {
-    //shorthand for adding geocode to state
+    //adds geocode to state
     const location = data.results[0].geometry.location;
     //creates new location object using place libary and assign it to a variable
     const focus = new google.maps.LatLng(location.lat, location.lng);
@@ -43,24 +43,25 @@ const convertZipToGeocode = (state, zipcode, callback) => {
       zoom: 12
     });
 
+    // sets where to make Google Places request
     const googlePlaces = new google.maps.places.PlacesService(map);
-
-    const request = {
+    const request = { 
       location: focus,
       radius: '40000',
       types: [ 'hospital' ]
     };
 
-    //where the actual API request for Google Places is initialized
+
+    //Google Places API request
     googlePlaces.nearbySearch(request, (results, status) => {
       appState.searchResults = results;
-      // All the work is done!
+      console.log(results);
       callback(appState);
     });
   }); 
 };
 
-// -- state mods ----------------------------------------
+// STATE MODS
 function setZipcode(state, zipcode) {
   state.zipcode = zipcode;
 }
@@ -89,11 +90,11 @@ function eventHandling() {
     event.preventDefault();
     const userZipcode = $(event.currentTarget).find('input').val();
     setZipcode(appState, userZipcode);
-    convertZipToGeocode(appState, userZipcode, renderHtml);
+    requestSearchResults(appState, userZipcode, renderHtml);
   });
 }
 
-// functions load on document ready
+// DOCUMENT READY FUNCTIONS
 $(function() {
   eventHandling();
 });
