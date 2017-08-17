@@ -1,53 +1,46 @@
-let map, geocoder, marker;
+'use strict';
 
-//-- google map display ----------------------------------------
-function initMap() {
-  const uluru = { lat: -25.363, lng: 131.044 };
+//-- INITIAL STATE 
+const appState = {
+  apiKey : 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s',
+  geoLocation: [],
+  searchResults: [],
+  zipcode: null
+};
+
+// GOOGLE MAPS DISPLAY AND DEFAULT VALUES
+function initialMap() {
+  let map, geocoder, marker; 
+  const centerOfUsa = { lat: 39.8097, lng: -98.5556 };
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: uluru
+    zoom: 3,
+    center: centerOfUsa
   });
   marker = new google.maps.Marker({
-    position: uluru,
+    position: centerOfUsa,
     map: map
   });
   geocoder = new google.maps.Geocoder();  
 }
 
-//-- app state ----------------------------------------
-const appState = {
-  geoLocation: [],
-  zipcode: null,
-  searchResults: [],
-};
-
-// -- google maps & places requests ----------------------------------------
-
-// convets zip code to latitutde and longitude 
-const geocoding = (state, zipcode, callback) => {
-  const key = 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s';
-
+const convertZipToGeocode = (state, zipcode, callback) => {
+  // sets URL for request with zipcode
   const baseURL = 'https://maps.googleapis.com/maps/api';
+  const geocodeURL = `${ baseURL }/geocode/json?address=${zipcode}&key=${state.apiKey}`;
+// test URL: https://maps.googleapis.com/maps/api/geocode/json?address=22152&key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s
 
-  // Interpolation in a template literal.
-  const geocodeURL = `${ baseURL }/geocode/json?address=${zipcode}&key=${key}`
-
-  //make geocode request
+  //makes geocode api request
   $.getJSON(geocodeURL, data => {
-
     //shorthand for adding geocode to state
     const location = data.results[0].geometry.location;
-    
     //creates new location object using place libary and assign it to a variable
     const focus = new google.maps.LatLng(location.lat, location.lng);
-
     //pushes lat/long into state
     state.geoLocation = [ location.lat, location.lng ];
-
     //required for PlacesService function
     const map = new google.maps.Map(document.getElementById('map'), {
       center: focus,
-      zoom: 15
+      zoom: 12
     });
 
     const googlePlaces = new google.maps.places.PlacesService(map);
@@ -62,20 +55,19 @@ const geocoding = (state, zipcode, callback) => {
     googlePlaces.nearbySearch(request, (results, status) => {
       appState.searchResults = results;
       // All the work is done!
-      callback(appState)
+      callback(appState);
     });
   }); 
-}
+};
 
 // -- state mods ----------------------------------------
 function setZipcode(state, zipcode) {
   state.zipcode = zipcode;
 }
 
-//-- Render functions ----------------------------------------
-function render(state) {
-  //HTML template
-  const renderbob = state.searchResults.map(function(items) {
+// RENDERING
+function renderHtml(state) {
+  const resultTemplate = state.searchResults.map(function(items) {
     return (`
       <div class = "listen">  
         <div class='individual-result'>
@@ -87,30 +79,21 @@ function render(state) {
       </div>
     `)
   })
-  $('.results').html(renderbob);
+  $('.results').html(resultTemplate);
   $('h2').removeClass('hidden');
 }
 
-
-
-//-- Event handlers ----------------------------------------
+// EVENTS
 function eventHandling() {
-  //stores zipcode on submit
   $('.search-bar').submit(function (event) {
     event.preventDefault();
-    const zipcode = $(event.currentTarget).find('input').val();
-    setZipcode(appState, zipcode);
-    geocoding(appState, zipcode, render);
-  });
-
-
-  $('.results').on('click', 'li', event => {
-    const selectedResult = $(event.target).find('span');
-    setSelecedResult(appState, selectedResult);
+    const userZipcode = $(event.currentTarget).find('input').val();
+    setZipcode(appState, userZipcode);
+    convertZipToGeocode(appState, userZipcode, renderHtml);
   });
 }
 
-
+// functions load on document ready
 $(function() {
   eventHandling();
 });
