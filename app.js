@@ -25,6 +25,7 @@ function initMap() {
   geocoder = new google.maps.Geocoder();  
 }
 
+
 function addPlaceMarkers(state) {
   const markers = state.searchResults.map(function(items) {
     return {
@@ -35,23 +36,34 @@ function addPlaceMarkers(state) {
   console.log('markers', markers);
   appState.resultMarkers = markers;
   console.log('state', appState);
+  // centers map on geolocation from state
   const map = new google.maps.Map(document.getElementById('map'), {
-    center:  {lat: 38.7735269, lng:-77.22901929999999},
+    center:  {lat: state.geoLocation[0], lng:state.geoLocation[1]},
     zoom: 10
   });
 
+  // this function should be adding coordinates to map
+  for(let i = 0; i < markers.length; i++ ) {
+    var position = new google.maps.LatLng(markers[i][0](), markers[i][1]());
+    console.log(position);
+    var renderPlaceMarkers = new google.maps.Marker({
+      position: position,
+      map: map,
+      title: markers[i][0]
 
-  var marker = new google.maps.Marker({
-          position: {lat: 38.7735269, lng:-77.22901929999999},
-          map: map,
-          title: 'Hello World!'
-        });
+    });
+  }
+  // var marker = new google.maps.Marker({
+  //         position: {lat: 38.7735269, lng:-77.22901929999999},
+  //         map: map,
+  //         title: 'Hello World!'
+  //       });
 
-      var markertest = new google.maps.Marker({
-          position: {lat: 38.9117752, lng:-77.07586679999997},
-          map: map,
-          title: 'Hello World!'
-        });    
+  //     var markertest = new google.maps.Marker({
+  //         position: {lat: 38.9117752, lng:-77.07586679999997},
+  //         map: map,
+  //         title: 'Hello World!'
+  //       });    
 
 }
 
