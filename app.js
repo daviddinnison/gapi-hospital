@@ -51,15 +51,26 @@ const requestSearchResults = (state, zipcode, callback) => {
       types: [ 'hospital' ]
     };
 
-
     //Google Places API request
     googlePlaces.nearbySearch(request, (results, status) => {
       appState.searchResults = results;
       console.log(results);
       callback(appState);
+      addPlaceMarkers(appState);
     });
+
   }); 
 };
+
+function addPlaceMarkers(state) {
+  const resultMarkers = state.searchResults.map(function(items) {
+    return {
+      lat: items.geometry.location.lat(),
+      lng: items.geometry.location.lng()
+    };
+  });
+  console.log(resultMarkers);
+}
 
 // STATE MODS
 function setZipcode(state, zipcode) {
