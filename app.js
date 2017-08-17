@@ -4,12 +4,13 @@
 const appState = {
   apiKey : 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s',
   geoLocation: [],
+  resultMarkers: [],
   searchResults: [],
   zipcode: null
 };
 
 // GOOGLE MAPS DISPLAY AND DEFAULT VALUES
-function initialMap() {
+function initMap() {
   let map, geocoder, marker; 
   const centerOfUsa = { lat: 39.8097, lng: -98.5556 };
   map = new google.maps.Map(document.getElementById('map'), {
@@ -22,6 +23,36 @@ function initialMap() {
     title:"Lebanon, KS"
   });
   geocoder = new google.maps.Geocoder();  
+}
+
+function addPlaceMarkers(state) {
+  const markers = state.searchResults.map(function(items) {
+    return {
+      lat: items.geometry.location.lat(),
+      lng: items.geometry.location.lng()
+    };
+  });
+  console.log('markers', markers);
+  appState.resultMarkers = markers;
+  console.log('state', appState);
+  const map = new google.maps.Map(document.getElementById('map'), {
+    center:  {lat: 38.7735269, lng:-77.22901929999999},
+    zoom: 10
+  });
+
+
+  var marker = new google.maps.Marker({
+          position: {lat: 38.7735269, lng:-77.22901929999999},
+          map: map,
+          title: 'Hello World!'
+        });
+
+      var markertest = new google.maps.Marker({
+          position: {lat: 38.9117752, lng:-77.07586679999997},
+          map: map,
+          title: 'Hello World!'
+        });    
+
 }
 
 const requestSearchResults = (state, zipcode, callback) => {
@@ -54,7 +85,7 @@ const requestSearchResults = (state, zipcode, callback) => {
     //Google Places API request
     googlePlaces.nearbySearch(request, (results, status) => {
       appState.searchResults = results;
-      console.log(results);
+      console.log('place results', results);
       callback(appState);
       addPlaceMarkers(appState);
     });
@@ -62,15 +93,7 @@ const requestSearchResults = (state, zipcode, callback) => {
   }); 
 };
 
-function addPlaceMarkers(state) {
-  const resultMarkers = state.searchResults.map(function(items) {
-    return {
-      lat: items.geometry.location.lat(),
-      lng: items.geometry.location.lng()
-    };
-  });
-  console.log(resultMarkers);
-}
+
 
 // STATE MODS
 function setZipcode(state, zipcode) {
