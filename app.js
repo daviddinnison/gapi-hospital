@@ -49,7 +49,7 @@ function addPlaceMarkers(state) {
     </div>`;
 
     // console.log('markers i', markers[i]);
-    const renderPlaceMarkers = new google.maps.Marker({
+    const renderPlaceMarker = new google.maps.Marker({
       content: contentString,
       position: position,
       map: map,
@@ -68,9 +68,9 @@ function addPlaceMarkers(state) {
       content: contentString
     });
  
-    // markers.addListener('click', function() {
-    //   infowindow.open(map, markers);
-    // });
+    renderPlaceMarker.addListener('click', function() {
+      infowindow.open(map, renderPlaceMarker);
+    });
   }
 }
 
