@@ -1,81 +1,128 @@
-let map, geocoder, marker;
+'use strict';
 
-//-- google map display ----------------------------------------
+//-- INITIAL STATE 
+const appState = {
+  apiKey : 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s',
+  geoLocation: [],
+  resultMarkers: [],
+  searchResults: [],
+  zipcode: null
+};
+
+// GOOGLE MAPS DISPLAY AND DEFAULT VALUES
 function initMap() {
-  const uluru = { lat: -25.363, lng: 131.044 };
+  let map, geocoder, marker; 
+  const centerOfUsa = { lat: 39.8097, lng: -98.5556 };
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: uluru
+    zoom: 3,
+    center: centerOfUsa
   });
   marker = new google.maps.Marker({
-    position: uluru,
-    map: map
+    position: centerOfUsa,
+    map: map,
+    title:"Lebanon, KS"
   });
   geocoder = new google.maps.Geocoder();  
 }
 
-//-- app state ----------------------------------------
-const appState = {
-  geoLocation: [],
-  zipcode: null,
-  searchResults: [],
-};
 
-// -- google maps & places requests ----------------------------------------
+function addPlaceMarkers(state) {
+  const markers = state.searchResults.map(function(items) {
+    return {
+      id: items.id,
+      lat: items.geometry.location.lat(),
+      lng: items.geometry.location.lng()
+    };
+  });
+  console.log('markers', markers);
+  appState.resultMarkers = markers;
+  console.log('state', appState);
+  // centers map on geolocation from state
+  const map = new google.maps.Map(document.getElementById('map'), {
+    center:  {lat: state.geoLocation[0], lng:state.geoLocation[1]},
+    zoom: 10
+  });
 
-// convets zip code to latitutde and longitude 
-const geocoding = (state, zipcode, callback) => {
-  const key = 'AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s';
+//this might not work
 
-  const baseURL = 'https://maps.googleapis.com/maps/api';
 
-  // Interpolation in a template literal.
-  const geocodeURL = `${ baseURL }/geocode/json?address=${zipcode}&key=${key}`
 
-  //make geocode request
-  $.getJSON(geocodeURL, data => {
 
-    //shorthand for adding geocode to state
-    const location = data.results[0].geometry.location;
+
+
+
+  //KEEP ME
+  for(let i = 0; i < markers.length; i++ ) {
+    var position = new google.maps.LatLng(markers[i].lat, markers[i].lng);
     
+    var contentString = `<div id="content">
+    <p>${markers[i].id}</p>
+    </div>`;
+
+    // console.log('markers i', markers[i]);
+    var renderPlaceMarkers = new google.maps.Marker({
+      content: contentString,
+      position: position,
+      map: map,
+      title: markers[i][0]
+    });
+    console.log(renderPlaceMarkers);
+  }
+    // var infowindow = new google.maps.InfoWindow({
+    //   content: contentString
+    // });
+    // infowindow.open(map,markers);
+
+}
+
+const requestSearchResults = (state, zipcode, callback) => {
+  // zip code must be converted to geocode for API request and map display
+  const baseURL = 'https://maps.googleapis.com/maps/api';
+  const geocodeURL = `${ baseURL }/geocode/json?address=${zipcode}&key=${state.apiKey}`;
+
+  // geocode API request
+  $.getJSON(geocodeURL, data => {
+    //adds geocode to state
+    const location = data.results[0].geometry.location;
     //creates new location object using place libary and assign it to a variable
     const focus = new google.maps.LatLng(location.lat, location.lng);
-
     //pushes lat/long into state
     state.geoLocation = [ location.lat, location.lng ];
-
     //required for PlacesService function
     const map = new google.maps.Map(document.getElementById('map'), {
       center: focus,
-      zoom: 15
+      zoom: 12
     });
 
+    // sets where to make Google Places request
     const googlePlaces = new google.maps.places.PlacesService(map);
-
-    const request = {
+    const request = { 
       location: focus,
       radius: '40000',
       types: [ 'hospital' ]
     };
 
-    //where the actual API request for Google Places is initialized
+    //Google Places API request
     googlePlaces.nearbySearch(request, (results, status) => {
       appState.searchResults = results;
-      // All the work is done!
-      callback(appState)
+      console.log('place results', results);
+      callback(appState);
+      addPlaceMarkers(appState);
     });
-  }); 
-}
 
-// -- state mods ----------------------------------------
+  }); 
+};
+
+
+
+// STATE MODS
 function setZipcode(state, zipcode) {
   state.zipcode = zipcode;
 }
 
-//-- Render functions ----------------------------------------
-function render(state) {
-  //HTML template
-  const renderbob = state.searchResults.map(function(items) {
+// RENDERING
+function renderHtml(state) {
+  const resultTemplate = state.searchResults.map(function(items) {
     return (`
       <div class = "listen">  
         <div class='individual-result'>
@@ -87,30 +134,39 @@ function render(state) {
       </div>
     `)
   })
-  $('.results').html(renderbob);
+  $('.results').html(resultTemplate);
   $('h2').removeClass('hidden');
 }
+//--Will move submit functions out here for onclick and onenterkeypress
+// function submitData(event) {
+//     $('.search-bar').submit(function (event) {
+//       event.preventDefault();
+//       const userZipcode = $(event.currentTarget).find('input').val();
+//       setZipcode(appState, userZipcode);
+//       requestSearchResults(appState, userZipcode, renderHtml);
+//     })
+// }
 
 
-
-//-- Event handlers ----------------------------------------
+// EVENTS
 function eventHandling() {
-  //stores zipcode on submit
   $('.search-bar').submit(function (event) {
     event.preventDefault();
-    const zipcode = $(event.currentTarget).find('input').val();
-    setZipcode(appState, zipcode);
-    geocoding(appState, zipcode, render);
+    const userZipcode = $(event.currentTarget).find('input').val();
+    setZipcode(appState, userZipcode);
+    requestSearchResults(appState, userZipcode, renderHtml);
   });
-
-
-  $('.results').on('click', 'li', event => {
-    const selectedResult = $(event.target).find('span');
-    setSelecedResult(appState, selectedResult);
-  });
+  
+  //--will make submit on keypress
+  // submitData();
+  // $('#query').keypress(function(event) {
+  //   if(event.keyCode==13) {
+  //     submitData(event);
+  //   }
+  // });
 }
 
-
+// DOCUMENT READY FUNCTIONS
 $(function() {
   eventHandling();
 });
