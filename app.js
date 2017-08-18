@@ -135,7 +135,9 @@ function renderHtml(state) {
   $('.rateYo').each(function(i, elem){ 
     if (elem.dataset.rating !== 'undefined') {
       $(elem).rateYo({
-        rating: parseInt(elem.dataset.rating, 10)
+        rating: parseInt(elem.dataset.rating, 10),
+        halfStar: true,
+        readOnly: true
       });
 
     }

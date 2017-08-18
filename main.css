@@ -95,3 +95,8 @@ header h1 {
  .rating {
  	color: blue;
  }
+
+ /*RATEYO STAR RATINGS  */
+ .jq-ry-container {
+	 margin: 0px auto;
+ }
