@@ -15,3 +15,6 @@ User Stories:
 - user enters zipcode, clicks submit and a list of hospitals within the area is returned
 - user can not enter anything other than a zipcode
 - use is able to view the list and is shown name of hospital, address, type of hospital and star rating
+
+modules
+-rateyo

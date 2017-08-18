@@ -30,9 +30,9 @@ function addPlaceMarkers(state) {
       vicinity: items.vicinity
     };
   });
-  console.log('markers', markers);
+  //console.log('markers', markers);
   appState.resultMarkers = markers;
-  console.log('state', appState);
+  //console.log('state', appState);
   
   // centers map on geolocation from state
   const map = new google.maps.Map(document.getElementById('map'), {
@@ -56,7 +56,7 @@ function addPlaceMarkers(state) {
       map: map,
       title: markers[i][0]
     });
-    console.log('place markers content', contentString);
+    //console.log('place markers content', contentString);
     
     //makes all markers display on map without scrolling
     const latlngbounds = new google.maps.LatLngBounds();
@@ -101,7 +101,7 @@ const requestSearchResults = (state, zipcode, callback) => {
     //Google Places API request
     googlePlaces.nearbySearch(request, (results, status) => {
       appState.searchResults = results;
-      console.log('place results', results);
+      //console.log('place results', results);
       callback(appState);
       addPlaceMarkers(appState);
     });
@@ -117,18 +117,29 @@ function setZipcode(state, zipcode) {
 // RENDERING
 function renderHtml(state) {
   const resultTemplate = state.searchResults.map(function(items) {
+
     return (`
       <div class = "listen">  
         <div class='individual-result' id='${items.id}'>
           <img src ='${items.icon}'>
           <p class = "hospital-name">${items.name}</p>
           <p>${items.vicinity}</p>
+          <div class="rateYo" data-rating='${items.rating}'></div>
           <p class = 'rating'>${items.rating} star rating</p>
         </div>
       </div>
-    `)
-  })
+    `);
+  });
+
   $('.results').html(resultTemplate);
+  $('.rateYo').each(function(i, elem){ 
+    if (elem.dataset.rating !== 'undefined') {
+      $(elem).rateYo({
+        rating: parseInt(elem.dataset.rating, 10)
+      });
+
+    }
+  });
   $('.results').removeClass('hidden');
 }
 
@@ -150,6 +161,11 @@ $('#query').keydown(function(event) {
       $('.search-bar').submit();
     }
   });
+
+ 
+
+
+
 
 }
 
