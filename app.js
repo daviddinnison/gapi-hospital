@@ -26,7 +26,8 @@ function addPlaceMarkers(state) {
       id: items.id,
       lat: items.geometry.location.lat(),
       lng: items.geometry.location.lng(),
-      name: items.name
+      name: items.name,
+      vicinity: items.vicinity
     };
   });
   console.log('markers', markers);
@@ -43,9 +44,9 @@ function addPlaceMarkers(state) {
   for(let i = 0; i < markers.length; i++ ) {
     const position = new google.maps.LatLng(markers[i].lat, markers[i].lng);
     
-    const contentString = `<div id="content">
-    <p>${markers[i].name}</p>
-    <p>${markers[i].id}</p>
+    const contentString = `<div class="info-window">
+    <a href="#${markers[i].id}">${markers[i].name}</a>
+    <p>${markers[i].vicinity}</p>
     </div>`;
 
     // console.log('markers i', markers[i]);
@@ -118,9 +119,8 @@ function renderHtml(state) {
   const resultTemplate = state.searchResults.map(function(items) {
     return (`
       <div class = "listen">  
-        <div class='individual-result'>
+        <div class='individual-result' id='${items.id}'>
           <img src ='${items.icon}'>
-          <p>${items.id}</p>
           <p class = "hospital-name">${items.name}</p>
           <p>${items.vicinity}</p>
           <p class = 'rating'>${items.rating} star rating</p>
