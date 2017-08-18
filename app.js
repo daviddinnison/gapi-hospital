@@ -135,7 +135,7 @@ function renderHtml(state) {
     `)
   })
   $('.results').html(resultTemplate);
-  $('h2').removeClass('hidden');
+  $('.results').removeClass('hidden');
 }
 //--Will move submit functions out here for onclick and onenterkeypress
 // function submitData(event) {
