@@ -31,7 +31,8 @@ function addPlaceMarkers(state) {
     return {
       id: items.id,
       lat: items.geometry.location.lat(),
-      lng: items.geometry.location.lng()
+      lng: items.geometry.location.lng(),
+      name: items.name
     };
   });
   console.log('markers', markers);
@@ -43,19 +44,12 @@ function addPlaceMarkers(state) {
     zoom: 10
   });
 
-//this might not work
 
-
-
-
-
-
-
-  //KEEP ME
   for(let i = 0; i < markers.length; i++ ) {
     var position = new google.maps.LatLng(markers[i].lat, markers[i].lng);
     
     var contentString = `<div id="content">
+    <p>${markers[i].name}</p>
     <p>${markers[i].id}</p>
     </div>`;
 
@@ -66,7 +60,7 @@ function addPlaceMarkers(state) {
       map: map,
       title: markers[i][0]
     });
-    console.log(renderPlaceMarkers);
+    console.log('place markers', renderPlaceMarkers);
   }
     // var infowindow = new google.maps.InfoWindow({
     //   content: contentString
@@ -122,6 +116,7 @@ function setZipcode(state, zipcode) {
 
 // RENDERING
 function renderHtml(state) {
+
   const resultTemplate = state.searchResults.map(function(items) {
     return (`
       <div class = "listen">  
