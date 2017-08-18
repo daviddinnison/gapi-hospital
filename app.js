@@ -12,16 +12,12 @@ const appState = {
 // GOOGLE MAPS DISPLAY AND DEFAULT VALUES
 function initMap() {
   let map, geocoder, marker; 
-  const centerOfUsa = { lat: 39.8097, lng: -98.5556 };
+  const centerInitialMap = { lat: 39.8097, lng: -98.5556 };
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 3,
-    center: centerOfUsa
+    center: centerInitialMap
   });
-  marker = new google.maps.Marker({
-    position: centerOfUsa,
-    map: map,
-    title:"Lebanon, KS"
-  });
+
   geocoder = new google.maps.Geocoder();  
 }
 
@@ -46,26 +42,37 @@ function addPlaceMarkers(state) {
 
 
   for(let i = 0; i < markers.length; i++ ) {
-    var position = new google.maps.LatLng(markers[i].lat, markers[i].lng);
+    const position = new google.maps.LatLng(markers[i].lat, markers[i].lng);
     
-    var contentString = `<div id="content">
+    const contentString = `<div id="content">
     <p>${markers[i].name}</p>
     <p>${markers[i].id}</p>
     </div>`;
 
     // console.log('markers i', markers[i]);
-    var renderPlaceMarkers = new google.maps.Marker({
+    const renderPlaceMarkers = new google.maps.Marker({
       content: contentString,
       position: position,
       map: map,
       title: markers[i][0]
     });
-    console.log('place markers', renderPlaceMarkers);
-  }
-    // var infowindow = new google.maps.InfoWindow({
-    //   content: contentString
+    console.log('place markers content', contentString);
+    
+    //makes all markers display on map without scrolling
+    const latlngbounds = new google.maps.LatLngBounds();
+    for (let x = 0; x < markers.length; x++) {
+      latlngbounds.extend(markers[x]);
+    }
+    map.fitBounds(latlngbounds);
+
+    const infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+ 
+    // markers.addListener('click', function() {
+    //   infowindow.open(map, markers);
     // });
-    // infowindow.open(map,markers);
+  }
 
 }
 
@@ -83,10 +90,6 @@ const requestSearchResults = (state, zipcode, callback) => {
     //pushes lat/long into state
     state.geoLocation = [ location.lat, location.lng ];
     //required for PlacesService function
-    const map = new google.maps.Map(document.getElementById('map'), {
-      center: focus,
-      zoom: 12
-    });
 
     // sets where to make Google Places request
     const googlePlaces = new google.maps.places.PlacesService(map);
@@ -122,6 +125,7 @@ function renderHtml(state) {
       <div class = "listen">  
         <div class='individual-result'>
           <img src ='${items.icon}'>
+          <p>${items.id}</p>
           <p class = "hospital-name">${items.name}</p>
           <p>${items.vicinity}</p>
           <p class = 'rating'>${items.rating} star rating</p>
