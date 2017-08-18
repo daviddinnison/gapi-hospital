@@ -44,8 +44,8 @@ function addPlaceMarkers(state) {
 
   // this function should be adding coordinates to map
   for(let i = 0; i < markers.length; i++ ) {
-    var position = new google.maps.LatLng(markers[i][0](), markers[i][1]());
-    console.log(position);
+    var position = new google.maps.LatLng(markers[i].lat, markers[i].lng);
+    console.log('markers i', markers[i]);
     var renderPlaceMarkers = new google.maps.Marker({
       position: position,
       map: map,
@@ -129,6 +129,16 @@ function renderHtml(state) {
   $('.results').html(resultTemplate);
   $('h2').removeClass('hidden');
 }
+//--Will move submit functions out here for onclick and onenterkeypress
+// function submitData(event) {
+//     $('.search-bar').submit(function (event) {
+//       event.preventDefault();
+//       const userZipcode = $(event.currentTarget).find('input').val();
+//       setZipcode(appState, userZipcode);
+//       requestSearchResults(appState, userZipcode, renderHtml);
+//     })
+// }
+
 
 // EVENTS
 function eventHandling() {
@@ -138,6 +148,14 @@ function eventHandling() {
     setZipcode(appState, userZipcode);
     requestSearchResults(appState, userZipcode, renderHtml);
   });
+  
+  //--will make submit on keypress
+  // submitData();
+  // $('#query').keypress(function(event) {
+  //   if(event.keyCode==13) {
+  //     submitData(event);
+  //   }
+  // });
 }
 
 // DOCUMENT READY FUNCTIONS
