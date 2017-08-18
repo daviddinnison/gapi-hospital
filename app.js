@@ -17,10 +17,8 @@ function initMap() {
     zoom: 3,
     center: centerInitialMap
   });
-
   geocoder = new google.maps.Geocoder();  
 }
-
 
 function addPlaceMarkers(state) {
   const markers = state.searchResults.map(function(items) {
@@ -34,6 +32,7 @@ function addPlaceMarkers(state) {
   console.log('markers', markers);
   appState.resultMarkers = markers;
   console.log('state', appState);
+  
   // centers map on geolocation from state
   const map = new google.maps.Map(document.getElementById('map'), {
     center:  {lat: state.geoLocation[0], lng:state.geoLocation[1]},
@@ -73,7 +72,6 @@ function addPlaceMarkers(state) {
     //   infowindow.open(map, markers);
     // });
   }
-
 }
 
 const requestSearchResults = (state, zipcode, callback) => {
@@ -110,8 +108,6 @@ const requestSearchResults = (state, zipcode, callback) => {
   }); 
 };
 
-
-
 // STATE MODS
 function setZipcode(state, zipcode) {
   state.zipcode = zipcode;
@@ -119,7 +115,6 @@ function setZipcode(state, zipcode) {
 
 // RENDERING
 function renderHtml(state) {
-
   const resultTemplate = state.searchResults.map(function(items) {
     return (`
       <div class = "listen">  
@@ -136,33 +131,26 @@ function renderHtml(state) {
   $('.results').html(resultTemplate);
   $('.results').removeClass('hidden');
 }
-//--Will move submit functions out here for onclick and onenterkeypress
-// function submitData(event) {
-//     $('.search-bar').submit(function (event) {
-//       event.preventDefault();
-//       const userZipcode = $(event.currentTarget).find('input').val();
-//       setZipcode(appState, userZipcode);
-//       requestSearchResults(appState, userZipcode, renderHtml);
-//     })
-// }
-
 
 // EVENTS
+function submitData(event) {
+  event.preventDefault();
+  const userZipcode = $(event.currentTarget).find('input').val();
+  setZipcode(appState, userZipcode);
+  requestSearchResults(appState, userZipcode, renderHtml);
+}
+
 function eventHandling() {
-  $('.search-bar').submit(function (event) {
-    event.preventDefault();
-    const userZipcode = $(event.currentTarget).find('input').val();
-    setZipcode(appState, userZipcode);
-    requestSearchResults(appState, userZipcode, renderHtml);
+ $('.search-bar').submit(function (event) {
+    submitData(event);
   });
-  
-  //--will make submit on keypress
-  // submitData();
-  // $('#query').keypress(function(event) {
-  //   if(event.keyCode==13) {
-  //     submitData(event);
-  //   }
-  // });
+
+$('#query').keydown(function(event) {
+    if (event.keyCode === 13) {
+      $('.search-bar').submit();
+    }
+  });
+
 }
 
 // DOCUMENT READY FUNCTIONS
