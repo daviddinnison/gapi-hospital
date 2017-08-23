@@ -105,7 +105,7 @@ const requestSearchResults = (state, zipcode, callback) => {
       callback(appState);
       addPlaceMarkers(appState);
     });
-
+    $('.map-container').removeClass('hidden');
   }); 
 };
 
@@ -148,9 +148,11 @@ function renderHtml(state) {
 // EVENTS
 function submitData(event) {
   event.preventDefault();
+  $('.loading').removeClass('hidden');
   const userZipcode = $(event.currentTarget).find('input').val();
   setZipcode(appState, userZipcode);
   requestSearchResults(appState, userZipcode, renderHtml);
+
 }
 
 function eventHandling() {
