@@ -101,7 +101,7 @@ const requestSearchResults = (state, zipcode, callback) => {
     //Google Places API request
     googlePlaces.nearbySearch(request, (results, status) => {
       appState.searchResults = results;
-      //console.log('place results', results);
+      console.log('place results', results);
       callback(appState);
       addPlaceMarkers(appState);
     });
@@ -117,31 +117,32 @@ function setZipcode(state, zipcode) {
 // RENDERING
 function renderHtml(state) {
   const resultTemplate = state.searchResults.map(function(items) {
-
+    console.log(items.photos)
     return (`
       <div class = "listen">  
         <div class='individual-result' id='${items.id}'>
           <img src ='${items.icon}'>
           <p class = "hospital-name">${items.name}</p>
           <p>${items.vicinity}</p>
-          <div class="rateYo" data-rating='${items.rating}'></div>
+          <div class="rateYo"  data-rating='${items.rating}'></div>
           <p class = 'rating'>${items.rating} star rating</p>
+          
         </div>
       </div>
     `);
   });
-
+//<img src='${items.photos()}'>
   $('.results').html(resultTemplate);
   $('.rateYo').each(function(i, elem){ 
     if (elem.dataset.rating !== 'undefined') {
       $(elem).rateYo({
-        rating: parseInt(elem.dataset.rating, 10),
-        halfStar: true,
+        rating: elem.dataset.rating,
         readOnly: true
       });
 
     }
   });
+  $('.loading').addClass('hidden');
   $('.results').removeClass('hidden');
 }
 
@@ -165,12 +166,6 @@ $('#query').keydown(function(event) {
       $('.search-bar').submit();
     }
   });
-
- 
-
-
-
-
 }
 
 // DOCUMENT READY FUNCTIONS
