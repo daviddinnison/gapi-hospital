@@ -6,7 +6,7 @@ const appState = {
   geoLocation: [],
   resultMarkers: [],
   searchResults: [],
-  zipcode: null
+  userInput: null
 };
 
 // GOOGLE MAPS DISPLAY AND DEFAULT VALUES
@@ -75,10 +75,10 @@ function addPlaceMarkers(state) {
   }
 }
 
-const requestSearchResults = (state, zipcode, callback) => {
+const requestSearchResults = (state, input, callback) => {
   // zip code must be converted to geocode for API request and map display
   const baseURL = 'https://maps.googleapis.com/maps/api';
-  const geocodeURL = `${baseURL}/geocode/json?address=${zipcode}&key=${state.apiKey}`;
+  const geocodeURL = `${baseURL}/geocode/json?address=${input}&key=${state.apiKey}`;
 
   // geocode API request
   $.getJSON(geocodeURL, data => {
@@ -110,8 +110,8 @@ const requestSearchResults = (state, zipcode, callback) => {
 };
 
 // STATE MODS
-function setZipcode(state, zipcode) {
-  state.zipcode = zipcode;
+function setUserInput(state, userInput) {
+  state.userInput = userInput;
 }
 
 // RENDERING
@@ -171,9 +171,9 @@ function renderHtml(state) {
 function submitData(event) {
   event.preventDefault();
   $('.loading').removeClass('hidden');
-  const userZipcode = $(event.currentTarget).find('input').val();
-  setZipcode(appState, userZipcode);
-  requestSearchResults(appState, userZipcode, renderHtml);
+  const userInput = $(event.currentTarget).find('input').val();
+  setUserInput(appState, userInput);
+  requestSearchResults(appState, userInput, renderHtml);
 
 }
 
