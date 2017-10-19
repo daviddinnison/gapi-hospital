@@ -117,16 +117,22 @@ function setZipcode(state, zipcode) {
 // RENDERING
 
 function renderOpenNow(item) {
-
-  console.log('ITEM OPENING HOURS', item.opening_hours);
   if (item.opening_hours !== undefined) {
     return (`
-      <p>Open now!</p>
+      <p class="available">Open now!</p>
    `)
   } else {
     return (`
-      <p>Closed</p>
+      <p class="unavailable">Closed</p>
     `)
+  }
+}
+
+function renderStars(item){
+  if (item.rating !== undefined) {
+    return(`<p class = 'rating'>${item.rating} star rating</p>`)
+  } else {
+    return(`<p class="unavailable">no ratings</p>`)
   }
 }
 
@@ -137,12 +143,11 @@ function renderHtml(state) {
       <div class = "listen">  
         <div class='individual-result' id='${items.id}'>
         <img src ='${items.icon}'>
+        <p class = "hospital-name">${items.name}</p>
+        <p>${items.vicinity}</p>
+        <div class="rateYo"  data-rating='${items.rating}'></div>
+        ${renderStars(items)}
         ${renderOpenNow(items)}
-          <p class = "hospital-name">${items.name}</p>
-          <p>${items.vicinity}</p>
-          <div class="rateYo"  data-rating='${items.rating}'></div>
-          <p class = 'rating'>${items.rating} star rating</p>
-          
         </div>
       </div>
     `);

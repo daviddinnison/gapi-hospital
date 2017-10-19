@@ -95,6 +95,13 @@ header h1 {
  .rating {
  	color: blue;
  }
+.available {
+	color: green;
+}
+
+.unavailable {
+	color: red;
+}
 
  /*RATEYO STAR RATINGS  */
  .jq-ry-container {
