@@ -5,8 +5,13 @@
 }
 
 body {
-	background-color: #F5F3F0;
 	color: #2A2728;
+	background-color: #F2F2F2;
+	margin: 0px;
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .hidden, #hidden {
@@ -15,37 +20,64 @@ body {
 
 /*HEADER  */
 header {
+	margin-bottom: 40px; 
+	padding: 0px;
+}
+
+.title {
+	background-color: #2A2728;
+
+	color: white;
+	
+	padding: 10px;
+	width: 100%;
+}
+
+.banner {
+	padding: 120px 0px;
+	background-image: url("images/banner.jpeg");
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.banner h2 {
+	background: rgba(204, 204, 204, 0.5);
+	border: 10px solid #2A2728;
+	display: inline;
+	padding: 40px;
+
+}
+
+
+/*SEARCH BOX  */
+.search {
 	margin-bottom: 20px;
 }
-header h1 {
-	margin-bottom: 60px;
-}
 
-
-/*Search box  */
 .search-bar {
 	font-size: 20px;
 }
 
 
 .search-bar > input {
-	border-radius: 5px; 
 	border: 1px solid #d7d7d7;
 	font-size: 19px;
-	margin-right: 10px;
-  display: inline-block;
+	width: 400px;
 }
 
 
  .search-bar button {
-	background-color: #990012;
-	border-radius: 10px;
+	background-color: #A52A2A;
 	border: none; 
+	display: block;
   color: #fff;
-  font-size: 15px;
+	font-size: 15px;
+	margin: 10px auto;
   padding: 5px 12px;
 	text-decoration: none;
-	transition: background .5s ease;
+	width: 400px;
+	transition: background .2s ease;
 }
 
  .search-bar button:hover {
@@ -54,18 +86,17 @@ header h1 {
 
 
 #map {
-   background-color: grey;
-   height: 350px;
-	 margin: 0px auto;
-	 margin-bottom: 50px;
-   max-width: 95%;
-	 width: 577px;
+  background-color: grey;
+  height: 350px;
+	margin: 0px auto;
+	margin-bottom: 50px;
+  max-width: 95%;
+	width: 577px;
  }
 
 
  /*RESULTS  */
  .results {
-	background-color: #fff;
 	padding-top: 50px;
  }
  
@@ -74,13 +105,13 @@ header h1 {
  }
 
  .individual-result {
-	background-color: #FFFFFD;
+	background-color: white;
 	box-shadow: 7px 7px 5px 0px #F5F5F5; 
 	border-radius: 10px;
 	border: 2px solid #F5F5F5;
  	margin: 0px auto;
-	 margin-bottom: 20px;
-	 max-width: 80%;
+	margin-bottom: 20px;
+	max-width: 80%;
  	padding: 20px;
  	text-align: center;
  	width: 530px;
