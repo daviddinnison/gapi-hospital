@@ -12,22 +12,26 @@
 	<header>
 		<div class="title">
 			<h1>Find My Hospital</h1>
-
 		</div>
-		<div class="banner">
+		<div class="parallax banner">
 			<h2>Enter an address to find hospitals near you</h2>
 		</div>
 	</header>
-	
-	
-	<nav class="search">
-		<form class="search-bar">
-			<label for="query"></label>
-			<input type="text" id="query" placeholder="address" required>
-			<button type="submit">Search</button>
-		</form>
-	</nav>
 	<main>
+
+		<!-- SEARCH BAR -->
+		<nav class="search">
+			<div class="info">
+				<p>Ever needed to find the closest medical facility? Whether you need to go to the doc right
+					<em>now</em> or just want to see what's across town, you can enter your address to find your local doc.
+				</p>
+			</div>
+			<form class="search-bar">
+				<label for="query"></label>
+				<input type="text" id="query" placeholder="address" required>
+				<button type="submit">Search</button>
+			</form>
+		</nav>
 		<!-- Map -->
 		<section class="map-container hidden">
 			<div id="map">
@@ -35,7 +39,7 @@
 		</section>
 		<!-- Results -->
 		<section>
-			<div class="results hidden"></div>
+			<div class="results hidden parallax"></div>
 			<div class="loading hidden">
 				<img src="images/spinner.svg">
 			</div>

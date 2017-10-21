@@ -34,16 +34,21 @@ header {
 }
 
 .banner {
-	padding: 120px 0px;
 	background-image: url("images/banner.jpeg");
+	padding: 200px 0px;
+}
+.results {
+	background-image: url("images/body.jpeg")
+}
+
+.parallax {
 	background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-.banner h2 {
+.parallax h2 {
 	background: rgba(204, 204, 204, 0.5);
-	border: 10px solid #2A2728;
 	display: inline;
 	padding: 40px;
 
@@ -84,6 +89,21 @@ header {
 	background-color: #5D0000;
 } 
 
+/* INFO */
+.info {
+	background-color: white;
+	box-shadow: 7px 7px 5px 0px #F5F5F5; 
+	border-radius: 10px;
+	border: 2px solid #F5F5F5;
+ 	margin: 0px auto;
+	margin-bottom: 20px;
+	max-width: 80%;
+ 	padding: 20px;
+ 	text-align: center;
+ 	width: 930px;
+}
+
+
 
 #map {
   background-color: grey;
@@ -105,10 +125,9 @@ header {
  }
 
  .individual-result {
-	background-color: white;
-	box-shadow: 7px 7px 5px 0px #F5F5F5; 
+	background: rgba(204, 204, 204, 0.9);
+	
 	border-radius: 10px;
-	border: 2px solid #F5F5F5;
  	margin: 0px auto;
 	margin-bottom: 20px;
 	max-width: 80%;
