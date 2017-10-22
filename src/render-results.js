@@ -22,6 +22,7 @@ function renderHtml(state) {
           ${renderStars(items)}
           ${renderOpenNow(items)}
           </div>
+          
         </div>
       `);
     });
