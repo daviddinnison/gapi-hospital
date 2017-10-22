@@ -71,7 +71,7 @@ function eventHandling() {
       $('.search-bar').submit();
     }
   });
-  
+
   //Check to see if the window is top if not then display button
 	$(window).scroll(function(){
 		if ($(this).scrollTop() > 100) {
@@ -86,17 +86,15 @@ function eventHandling() {
 		$('html, body').animate({scrollTop : 0},800);
 		return false;
 	});
-	
+  
+  //Smooth scroll for nav routing
+  $( "#map" ).on( "click", "a[href]", function( event ) {
+    const route = $(this).attr("href");
+    $('html, body').animate({ scrollTop: $(route).offset().top }, 1000);
+});
 }
 
 // DOCUMENT READY FUNCTIONS
 $(function () {
   eventHandling();
-
-  $( "#map" ).on( "click", "a[href]", function( event ) {
-    const route = $(this).attr("href");
-    console.log(route)
-    $('html, body').animate({ scrollTop: $(route).offset().top }, 1000);
-});
-  
 });
