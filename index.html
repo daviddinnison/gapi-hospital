@@ -14,7 +14,12 @@
 			<h1>Find My Hospital</h1>
 		</div>
 		<div class="parallax banner">
-			<h2>Enter an address to find hospitals near you</h2>
+			<form class="search-bar">
+				<label for="query"></label>
+				
+				<input type="text" id="query" placeholder="Enter an address to find hospitals near you" required>
+				<button type="submit">Search</button>
+			</form>
 		</div>
 	</header>
 	<main>
@@ -26,11 +31,6 @@
 					<em>now</em> or just want to see what's across town, you can enter your address to find your local doc.
 				</p>
 			</div>
-			<form class="search-bar">
-				<label for="query"></label>
-				<input type="text" id="query" placeholder="address" required>
-				<button type="submit">Search</button>
-			</form>
 		</nav>
 		<!-- Map -->
 		<section class="map-container hidden">

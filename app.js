@@ -136,6 +136,9 @@ function renderStars(item){
   }
 }
 
+  
+
+
 function renderHtml(state) {
   const resultTemplate = state.searchResults.map(function (items) {
     // console.log(items.photos)
@@ -165,6 +168,7 @@ function renderHtml(state) {
   });
   $('.loading').addClass('hidden');
   $('.results').removeClass('hidden');
+  $("html, body").animate({ scrollTop: $('#map').offset().top }, 1000);
 }
 
 // EVENTS

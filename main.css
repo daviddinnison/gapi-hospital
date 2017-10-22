@@ -47,41 +47,55 @@ header {
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-.parallax h2 {
+
+
+
+.banner input, select, textarea{
+    color: #2A2728;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #2A2728;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #2A2728;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #2A2728;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #2A2728;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+   color:    #2A2728;
+}
+
+.banner input{
 	background: rgba(204, 204, 204, 0.5);
-	display: inline;
-	padding: 40px;
-
-}
-
-
-/*SEARCH BOX  */
-.search {
-	margin-bottom: 20px;
-}
-
-.search-bar {
-	font-size: 20px;
-}
-
-
-.search-bar > input {
-	border: 1px solid #d7d7d7;
+	color: #2A2728;
+	border: none;
+	display: inline-block;
 	font-size: 19px;
-	width: 400px;
+	padding: 35px;
+	width: 500px;
 }
+/*SEARCH BOX  */
+
+
 
 
  .search-bar button {
 	background-color: #A52A2A;
 	border: none; 
-	display: block;
   color: #fff;
+  display: block;
 	font-size: 15px;
-	margin: 10px auto;
+	margin: 0px auto;
   padding: 5px 12px;
 	text-decoration: none;
-	width: 400px;
+	width: 500px;
 	transition: background .2s ease;
 }
 
