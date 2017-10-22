@@ -1,14 +1,19 @@
 function renderOpenNow(item) {
     if (item.opening_hours !== undefined) {
-      return (`
+        return (`
         <p class="available">Open now!</p>
      `)
     } else {
-      return (`
+        return (`
         <p class="unavailable">Closed</p>
       `)
     }
-  }
+}
+
+function smoothMarkerScroll(item) {
+    console.log(item)
+    $("html, body").animate({ scrollTop: $('#map').offset().top }, 1000);
+}
 
 function addPlaceMarkers(state) {
     const markers = state.searchResults.map(function (items) {
@@ -35,7 +40,7 @@ function addPlaceMarkers(state) {
         const position = new google.maps.LatLng(markers[i].lat, markers[i].lng);
 
         const contentString = `<div class="info-window">
-      <a href="#${markers[i].id}">${markers[i].name}</a>
+      <a href="#${markers[i].id}" class="marker">${markers[i].name}</a>
       <p>${markers[i].vicinity}</p>
       </div>`;
 

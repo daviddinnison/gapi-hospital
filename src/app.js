@@ -36,7 +36,7 @@ const requestSearchResults = (state, input, callback) => {
     //Google Places API request
     googlePlaces.nearbySearch(request, (results, status) => {
       appState.searchResults = results;
-      console.log('place results', results);
+      // console.log('place results', results);
       callback(appState);
       addPlaceMarkers(appState);
     });
@@ -76,4 +76,11 @@ function eventHandling() {
 // DOCUMENT READY FUNCTIONS
 $(function () {
   eventHandling();
+
+  $( "#map" ).on( "click", "a[href]", function( event ) {
+    const route = $(this).attr("href");
+    console.log(route)
+    $('html, body').animate({ scrollTop: $(route).offset().top }, 1000);
+});
+  
 });
