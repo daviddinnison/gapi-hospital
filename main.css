@@ -1,6 +1,7 @@
 * {
 	box-sizing: border-box;
-	font-family: 'Roboto', sans-serif;
+	/* font-family: 'Roboto', sans-serif; */
+	font-family: 'Crete Round', serif;
 	text-align: center;
 }
 
@@ -123,6 +124,7 @@ header {
  .individual-result {
 	background-color: white;
 	border-radius: 10px;
+	
  	margin: 0px auto;
 	margin-bottom: 20px;
 	max-width: 80%;
@@ -134,6 +136,7 @@ header {
 
 
  .hospital-name {
+	font-family: 'ABeeZee', sans-serif;
  	font-size: 20px;
  }
 
