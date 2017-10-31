@@ -25,9 +25,7 @@ function addPlaceMarkers(state) {
             vicinity: items.vicinity
         };
     });
-    //console.log('markers', markers);
     appState.resultMarkers = markers;
-    //console.log('state', appState);
 
     // centers map on geolocation from state
     const map = new google.maps.Map(document.getElementById('map'), {
@@ -64,7 +62,13 @@ function addPlaceMarkers(state) {
             content: contentString
         });
 
+        // function getInfoWindowEvent(marker) {
+        //     infowindow.close()
+        //     infowindow.setContent("This is where my HTML content goes.");
+        //     infowindow.open(map, marker);
+        // }
         renderPlaceMarker.addListener('click', function () {
+            infowindow.close();
             infowindow.open(map, renderPlaceMarker);
         });
     }

@@ -1,5 +1,6 @@
 * {
 	box-sizing: border-box;
+	
 	/* font-family: 'Roboto', sans-serif; */
 	font-family: 'Crete Round', serif;
 	text-align: center;
@@ -7,13 +8,12 @@
 
 body {
 	color: #2A2728;
-	background-image: url("images/dust_scratches.png");
-	background-color: #F2F2F2;
+	/* background-image: url("images/dust_scratches.png");
+	background-color: #F2F2F2; */
+	background-color: #e3d9ca;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2395a792' fill-opacity='0.09'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+	padding: 0px;
 	margin: 0px;
-	background-attachment: fixed;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
 }
 
 .hidden, #hidden {
@@ -27,22 +27,25 @@ header {
 }
 
 .title {
-	background-color: #2A2728;
+	/* background-color: #2A2728; */
+	background-color: #596C68;
 	position: fixed;
 	color: white;
-	
 	padding: 10px;
 	width: 100%;
 	z-index: 100;
 }
 
-.banner {
-	background-image: url("images/banner.jpeg");
-	
-	padding: 200px 0px;
+.title h1 {
+	padding-left: 20px;
+	text-align: left;
 }
-.results {
-	/* background-image: url("images/dust_scratches.png"); */
+
+.banner {
+	/* background-image: url("images/banner.jpeg"); */
+	background-image: url("images/newbanner.jpg");
+	/* background-color: #95A792; */
+	padding: 200px 0px;
 }
 
 .parallax {
@@ -70,7 +73,7 @@ header {
 
  .search-bar button {
 	background-image: url("images/search.png");
-	background-color: #993C3C;
+	background-color: #5D0000;
 	/* background-position: 8px 8px; */
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -89,7 +92,7 @@ header {
 }
 
  .search-bar button:hover {
-	background-color: #5D0000;
+	background-color: #3F0000;
 } 
 
 .search-bar button:focus {
@@ -177,6 +180,6 @@ header {
 	height:100px;
 	position:fixed;
 	right:40px;
-	width:100px; 
+	width:80px; 
 	z-index: 101;
 }
