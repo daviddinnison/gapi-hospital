@@ -41,7 +41,6 @@ header {
 }
 .results {
 	background-image: url("images/dust_scratches.png");
-	/* background-image: url("images/body.jpeg"); */
 }
 
 .parallax {
@@ -69,15 +68,22 @@ header {
 
 
  .search-bar button {
-	background-color: #A52A2A;
+	background-image: url("images/search.png");
+	background-color: #993C3C;
+	/* background-position: 8px 8px; */
+	background-repeat: no-repeat;
+	background-size: contain;
 	border: none; 
+	border-radius: 10px;
   color: #fff;
-  display: block;
+  display: inline-block;
 	font-size: 15px;
 	margin: 0px auto;
-  padding: 5px 12px;
-	text-decoration: none;
-	width: 500px;
+  padding: 10px 5px;
+	
+	width: 37.2px;
+	height: 37.2px;
+	vertical-align: bottom;
 	transition: background .2s ease;
 }
 
