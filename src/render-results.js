@@ -12,10 +12,10 @@ function renderStars(item){
 function renderHtml(state) {
     const resultTemplate = state.searchResults.map(function (items) {
       // console.log(items.photos)
+      // <img src ='${items.icon}'> icon
       return (`
         <div class = "listen">  
           <div class='individual-result' id='${items.id}'>
-          <img src ='${items.icon}'>
           <p class = "hospital-name">${items.name}</p>
           <p>${items.vicinity}</p>
           <div class="rateYo"  data-rating='${items.rating}'></div>
