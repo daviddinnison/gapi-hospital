@@ -7,6 +7,7 @@
 
 body {
 	color: #2A2728;
+	background-image: url("images/dust_scratches.png");
 	background-color: #F2F2F2;
 	margin: 0px;
 	background-attachment: fixed;
@@ -27,11 +28,12 @@ header {
 
 .title {
 	background-color: #2A2728;
-
+	position: fixed;
 	color: white;
 	
 	padding: 10px;
 	width: 100%;
+	z-index: 100;
 }
 
 .banner {
@@ -40,7 +42,7 @@ header {
 	padding: 200px 0px;
 }
 .results {
-	background-image: url("images/dust_scratches.png");
+	/* background-image: url("images/dust_scratches.png"); */
 }
 
 .parallax {
@@ -63,7 +65,6 @@ header {
 
 .search-bar input:focus {
 	outline: 0;
-	background-color: red;
 }
 
 
@@ -80,7 +81,7 @@ header {
 	font-size: 15px;
 	margin: 0px auto;
   padding: 10px 5px;
-	
+  cursor: pointer;
 	width: 37.2px;
 	height: 37.2px;
 	vertical-align: bottom;
@@ -91,10 +92,13 @@ header {
 	background-color: #5D0000;
 } 
 
+.search-bar button:focus {
+	outline: 0;
+}
 /* INFO */
 .info {
 	background-color: white;
-	box-shadow: 7px 7px 5px 0px #F5F5F5; 
+	
 	border-radius: 10px;
 	border: 2px solid #F5F5F5;
  	margin: 0px auto;
@@ -167,11 +171,12 @@ header {
 .scrollToTop{
 	background: url('images/arrow.png') no-repeat;
 	background-size: 100%;
-	bottom:75px;
+	top:10px;
 	cursor: pointer;
 	display:none;
 	height:100px;
 	position:fixed;
 	right:40px;
 	width:100px; 
+	z-index: 101;
 }
