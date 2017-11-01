@@ -1,71 +1,57 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<title>Find My Hospital</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=ABeeZee|Crete+Round" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
 	<link rel="shortcut icon" href="images/favicon.ico">
-
 	<link rel="stylesheet" type="text/css" href="main.css">
-
 </head>
 
-<body></body>
-	<header id="return-to-top">
-		<div class="title">
-			<h1>Find My Hospital</h1>
+<body>
+<header id="return-to-top" class="parallax">
+	<h1>Find My Hospital</h1>
+	<p>"For the times you need a doctor<em>now</em> or maybe later."</p>
+	<img src="images/hospital.png" />
+
+	<!-- SEARCH BAR -->
+	<form class="search-bar">
+		<label for="query"></label>
+		<input type="text" id="query" placeholder="Location" required>
+		<button type="submit"></button>
+	</form>
+</header>
+
+<main>
+	<!-- Map -->
+	<section class="map-container hidden">
+		<div id="map">
 		</div>
-		<div class="info">
-			<img src="images/hospital.png"/>
-			<p>For the times you need a doctor <em>now</em> or maybe later.
-			</p>
+		<div class="scrollToTop">
+			<!-- <img src="images/arrow.png"> -->
 		</div>
-	
-		<form class="search-bar">
-			<label for="query"></label>
+	</section>
 
-			<input type="text" id="query" placeholder="Location" required>
-			<button type="submit"></button>
-		</form>
+	<!-- Results -->
+	<section>
+		<div class="results hidden"></div>
+		<div class="loading hidden">
+			<img src="images/spinner.svg">
+		</div>
+	</section>
+</main>
 
-	</header>
-	<main>
-
-		<!-- SEARCH BAR -->
-
-		<!-- Map -->
-		<section class="map-container hidden">
-			<div id="map">
-			</div>
-			<div class="scrollToTop">
-				<!-- <img src="images/arrow.png"> -->
-			</div>
-		</section>
-		<!-- Results -->
-		<section>
-			<div class="results hidden parallax"></div>
-			<div class="loading hidden">
-				<img src="images/spinner.svg">
-			</div>
-		</section>
-	</main>
-	<footer>
-
-	</footer>
-	<!-- Scripts -->
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="src/render-results.js"></script>
-	<script type="text/javascript" src="src/render-maps.js"></script>
-	<script type="text/javascript" src="src/render-markers.js"></script>
-	<script type="text/javascript" src="src/app.js"></script>
-	<!-- API key for Google maps -->
-	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s&callback=initMap&libraries=places">
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="src/render-results.js"></script>
+<script type="text/javascript" src="src/render-maps.js"></script>
+<script type="text/javascript" src="src/render-markers.js"></script>
+<script type="text/javascript" src="src/app.js"></script>
+<!-- API key for Google maps -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNb2Rq_psL37TOUxYPnAEt-eFzBrJZe2s&callback=initMap&libraries=places">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
 </body>
-
 </html>
