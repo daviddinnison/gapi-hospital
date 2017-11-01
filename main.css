@@ -46,9 +46,10 @@ header > p {
 }
 
 header img {
-	width: 300px;
-	height: 212px;
+	height: auto;
 	margin-bottom: 20px;
+	max-width: 80%;
+	width: 300px;
 }
 
 /*SEARCH BOX  */
@@ -100,7 +101,6 @@ header img {
 	width: 577px;
  }
 
-
  /*RESULTS  */
  .results {
 	padding-top: 50px;
@@ -114,7 +114,6 @@ header img {
  .individual-result {
 	background-color: white;
 	border-radius: 10px;
-	
  	margin: 0px auto;
 	margin-bottom: 20px;
 	max-width: 80%;
@@ -148,7 +147,7 @@ header img {
 
 
 /* SCROLL TO TOP */
-.scrollToTop{
+.scrollToTop {
 	background: url('images/arrow.png') no-repeat;
 	background-size: 100%;
 	top:10px;
@@ -160,3 +159,13 @@ header img {
 	width:80px; 
 	z-index: 101;
 }
+
+/* 800px */
+@media screen and (max-width: 800px){
+	.scrollToTop {
+		max-width: 15%;
+		right: 5px;
+	}
+
+}
+	
