@@ -36,7 +36,7 @@ function renderHtml(state) {
     });
     $('.loading').addClass('hidden');
     $('.results').removeClass('hidden');
-    $("html, body").animate({ scrollTop: $('#map').offset().top }, 1000);
+    // $("html, body").animate({ scrollTop: $('#map').offset().top }, 1000);
   }
 
   
